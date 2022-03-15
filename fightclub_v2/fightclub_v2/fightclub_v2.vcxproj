@@ -139,7 +139,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="fightclub_v2.cpp" />
+    <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CardStructure.cpp" />
+    <ClCompile Include="CardSystem.cpp" />
+    <ClCompile Include="CombatScreen.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Navigation.cpp" />
+    <ClCompile Include="SelectionScreen.cpp" />
+    <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="UserInterface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="CardStructure.h" />
+    <ClInclude Include="CardSystem.h" />
+    <ClInclude Include="CombatScreen.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Navigation.h" />
+    <ClInclude Include="SelectionScreen.h" />
+    <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

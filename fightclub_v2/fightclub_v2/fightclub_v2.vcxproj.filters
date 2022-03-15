@@ -13,10 +13,78 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Headerdateien\Navigation">
+      <UniqueIdentifier>{81c60c01-41f9-4ddc-baf4-f2eeeafefac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Navigation">
+      <UniqueIdentifier>{813a164b-2a12-4c9f-af30-0d8585ca5eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Cards">
+      <UniqueIdentifier>{914605e7-df58-43b7-b272-dea212ffee32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Cards">
+      <UniqueIdentifier>{912bf332-6521-446b-a472-4f4132a38933}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fightclub_v2.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Navigation.cpp">
+      <Filter>Quelldateien\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Quelldateien\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatScreen.cpp">
+      <Filter>Quelldateien\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectionScreen.cpp">
+      <Filter>Quelldateien\Navigation</Filter>
+    </ClCompile>
+    <ClCompile Include="Card.cpp">
+      <Filter>Quelldateien\Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="CardStructure.cpp">
+      <Filter>Quelldateien\Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="CardSystem.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Navigation.h">
+      <Filter>Headerdateien\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
+      <Filter>Headerdateien\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionScreen.h">
+      <Filter>Headerdateien\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatScreen.h">
+      <Filter>Headerdateien\Navigation</Filter>
+    </ClInclude>
+    <ClInclude Include="Card.h">
+      <Filter>Headerdateien\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="CardStructure.h">
+      <Filter>Headerdateien\Cards</Filter>
+    </ClInclude>
+    <ClInclude Include="CardSystem.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
