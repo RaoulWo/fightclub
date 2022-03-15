@@ -1,5 +1,6 @@
 #pragma once
 #include "CardSystem.h"
+#include "Team.h"
 
 class CombatScreen
 {
@@ -16,7 +17,7 @@ public:
 	void SetNumberCoord(int x);
 	void SetActiveSelect(bool b);
 	// #### Public Methods ####
-	void Render(const CardSystem& cardsystem);
+	void Render(const CardSystem& cardsystem, const Team& team1, const Team& team2, int roundCount);
 	void MoveUp();
 	void MoveDown();
 	void MoveLeft();
@@ -24,8 +25,8 @@ public:
 protected:
 private:
 	void RenderNumbers();
-
-	void RenderHand(const CardSystem& cardsystem);
+	void RenderStats(const Team& team1, const Team& team2);
+	void RenderHand(const CardSystem& cardsystem, int roundCount);
 	void RenderCardName(const CardSystem& cardsystem, int i);
 	void RenderCardDescription(const CardSystem& cardsystem);
 	int m_card_coord;

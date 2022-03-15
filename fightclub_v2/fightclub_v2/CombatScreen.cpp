@@ -1,5 +1,6 @@
 #include "CombatScreen.h"
 #include <iostream>
+#include <iomanip>
 #include <Windows.h>
 
 CombatScreen::CombatScreen()
@@ -47,7 +48,7 @@ void CombatScreen::SetActiveSelect(bool b)
 	this->m_active_select = b;
 }
 
-void CombatScreen::Render(const CardSystem& cardsystem)
+void CombatScreen::Render(const CardSystem& cardsystem, const Team& team1, const Team& team2, int roundCount)
 {
 	using namespace std;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -57,15 +58,13 @@ void CombatScreen::Render(const CardSystem& cardsystem)
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n'; // 5
-	cout << "#                                                                                                                     #" << '\n';
 	this->RenderNumbers();
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
-	cout << "#    ======  ======  ======    ======  ======  ======             ======  ======  ======    ======  ======  ======    #" << '\n';
-	cout << "#    |    |  |    |  |    |    |    |  |    |  |    |             |    |  |    |  |    |    |    |  |    |  |    |    #" << '\n';
-	cout << "#    ======  ======  ======    ======  ======  ======             ======  ======  ======    ======  ======  ======    #" << '\n';
+	this->RenderStats(team1, team2);
 	cout << "#                                                                                                                     #" << '\n';
-	this->RenderHand(cardsystem); //                                     xx
+	cout << "#                                                                                                                     #" << '\n';
+	this->RenderHand(cardsystem,roundCount); //                                     xx
 }
 
 void CombatScreen::MoveUp()
@@ -135,24 +134,93 @@ void CombatScreen::RenderNumbers()
 	SetConsoleTextAttribute(hConsole, 15);
 }
 
-void CombatScreen::RenderHand(const CardSystem& cardsystem)
+void CombatScreen::RenderStats(const Team& team1, const Team& team2)
 {
 	using namespace std;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	cout << "#=====================================================================================================================#" << '\n';
-	cout << "#                        |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);  cout << "#" << '\n'; // 15
-	cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                                            #" << '\n'; // 25
-	cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                                            #" << '\n';
-	cout << "#                        |                                                                                            #" << '\n';
-	cout << "#######################################################################################################################" << '\n'; // 28 * 120
-	//cout << "x                                                          xx                                                       x" << '\n';
+	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
+	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
+	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
 }
+
+void CombatScreen::RenderHand(const CardSystem& cardsystem, int roundCount)
+{
+	using namespace std;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (roundCount == 0) {
+		cout << "#=====================================================================================================================#" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                        |"; cout << "       1111        #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                        |"; cout << "         11        #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);                    cout << "|"; cout << "         11        #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                        |"; cout << "         11        #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                        |"; cout << "       111111      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                        |                   #" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "#######################################################################################################################" << '\n'; // 28 * 120
+		//cout << "x                                                          xx                                                       x" << '\n';
+	}
+	else if (roundCount == 1) {
+		cout << "#=====================================================================================================================#" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                        |"; cout << "        3333       #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                        |"; cout << "       33  33      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);                    cout << "|"; cout << "          33       #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                        |"; cout << "       33  33      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                        |"; cout << "        3333       #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                        |                   #" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "#######################################################################################################################" << '\n'; // 28 * 120
+		//cout << "x                                                          xx                                                       x" << '\n';
+	}
+	else if (roundCount == 2) {
+		cout << "#=====================================================================================================================#" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                        |"; cout << "        2222       #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                        |"; cout << "       22  22      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);                    cout << "|"; cout << "          22       #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                        |"; cout << "         22        #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                        |"; cout << "       222222      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                        |                   #" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "#######################################################################################################################" << '\n'; // 28 * 120
+		//cout << "x                                                          xx                                                       x" << '\n';
+	}
+	else {
+		cout << "#=====================================================================================================================#" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                        |                   #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                        |"; cout << "       44  44      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                        |"; cout << "       44  44      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);                    cout << "|"; cout << "       444444      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                        |"; cout << "           44      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                        |"; cout << "           44      #" << '\n';
+		cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                        |                   #" << '\n';
+		cout << "#                        |                                                                        |                   #" << '\n';
+		cout << "#######################################################################################################################" << '\n'; // 28 * 120
+		//cout << "x                                                          xx                                                       x" << '\n';
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void CombatScreen::RenderCardName(const CardSystem& cardsystem, int i)
 {
@@ -163,7 +231,7 @@ void CombatScreen::RenderCardName(const CardSystem& cardsystem, int i)
 	if (this->GetCardCoord() == i)
 	{
 		isActive = true;
-		SetConsoleTextAttribute(hConsole, 10); // 10 is green
+		SetConsoleTextAttribute(hConsole, 14); // 14 is yellow
 	}
 
 	if (i < cardsystem.m_hand.GetSize())
@@ -188,6 +256,6 @@ void CombatScreen::RenderCardDescription(const CardSystem& cardsystem)
 		cout << cardsystem.m_hand.GetCard(this->GetCardCoord()).GetDescription();
 	}
 	else {
-		cout << "                                                                                            ";
+		cout << "                                                                        ";
 	}
 }

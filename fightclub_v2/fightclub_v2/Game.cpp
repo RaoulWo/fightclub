@@ -2,7 +2,7 @@
 #include "Windows.h"
 
 Game::Game()
-	: m_mode(true)
+	: m_mode(true), m_round_count(0)
 {
 }
 
@@ -11,9 +11,20 @@ const bool Game::GetMode() const
 	return this->m_mode;
 }
 
+const int Game::GetRoundCount() const
+{
+	return this->m_round_count;
+}
+
 void Game::SetMode(bool b)
 {
 	this->m_mode = b;
+}
+
+void Game::SetRoundCount(int i)
+{
+	this->m_round_count = i % 4;
+
 }
 
 void Game::Start()
@@ -22,6 +33,7 @@ void Game::Start()
 	
 	while (1)
 	{
+		Team team1, team2;
 		CardSystem deck1, deck2, deck3, deck4;
 		system("cls");
 		this->m_ui.m_title_screen.Render();
@@ -148,11 +160,23 @@ void Game::Start()
 					deck2.DrawStartingHand();
 					deck3.DrawStartingHand();
 					deck4.DrawStartingHand();
+					int roundCount = 1;
 					// CombatLoop
 					while (1)
 					{
 						system("cls");
-						this->m_ui.m_combat_screen.Render(deck1);
+						if (roundCount == 0) {
+							this->m_ui.m_combat_screen.Render(deck1, team1, team2, roundCount);
+						}
+						else if (roundCount == 1) {
+							this->m_ui.m_combat_screen.Render(deck2, team1, team2, roundCount);
+						}
+						else if (roundCount == 2) {
+							this->m_ui.m_combat_screen.Render(deck3, team1, team2, roundCount);
+						}
+						else {
+							this->m_ui.m_combat_screen.Render(deck4, team1, team2, roundCount);
+						}
 						system("pause>nul");
 						if (GetAsyncKeyState(VK_UP))
 						{
