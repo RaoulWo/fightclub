@@ -163,6 +163,19 @@ void Game::Start()
 							this->m_ui.m_combat_screen.MoveDown();
 						}
 
+						this->m_ui.m_combat_screen.SetActiveSelect(true);
+
+						if (this->m_ui.m_combat_screen.GetActiveSelect()) {
+							if (GetAsyncKeyState(VK_LEFT))
+							{
+								this->m_ui.m_combat_screen.MoveLeft();
+							}
+							if (GetAsyncKeyState(VK_RIGHT))
+							{
+								this->m_ui.m_combat_screen.MoveRight();
+							}
+						}
+
 					}
 
 				}

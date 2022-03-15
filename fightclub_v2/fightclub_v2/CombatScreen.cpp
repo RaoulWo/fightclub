@@ -3,13 +3,23 @@
 #include <Windows.h>
 
 CombatScreen::CombatScreen()
-	: m_card_coord(0)
+	: m_card_coord(0), m_number_coord(0), m_active_select(false)
 {
 }
 
 const int CombatScreen::GetCardCoord() const
 {
 	return this->m_card_coord;
+}
+
+const int CombatScreen::GetNumberCoord() const
+{
+	return this->m_number_coord;
+}
+
+const bool CombatScreen::GetActiveSelect() const
+{
+	return this->m_active_select;
 }
 
 void CombatScreen::SetCardCoord(int x)
@@ -21,29 +31,41 @@ void CombatScreen::SetCardCoord(int x)
 		this->m_card_coord = 0;
 }
 
+void CombatScreen::SetNumberCoord(int x)
+{
+	this->m_number_coord = x;
+	if (this->GetNumberCoord() < 0) {
+		this->m_number_coord = 0;
+	}
+	if (this->GetNumberCoord() > 3) {
+		this->m_number_coord = 3;
+	}
+}
+
+void CombatScreen::SetActiveSelect(bool b)
+{
+	this->m_active_select = b;
+}
+
 void CombatScreen::Render(const CardSystem& cardsystem)
 {
 	using namespace std;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	//cout << "x                                                          xx                                                       x" << '\n';
+	//cout << "x                                                         xx                                                       x" << '\n';
 	cout << "#######################################################################################################################" << '\n'; // 1
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n'; // 5
 	cout << "#                                                                                                                     #" << '\n';
+	this->RenderNumbers();
 	cout << "#                                                                                                                     #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
+	cout << "#    ======  ======  ======    ======  ======  ======             ======  ======  ======    ======  ======  ======    #" << '\n';
+	cout << "#    |    |  |    |  |    |    |    |  |    |  |    |             |    |  |    |  |    |    |    |  |    |  |    |    #" << '\n';
+	cout << "#    ======  ======  ======    ======  ======  ======             ======  ======  ======    ======  ======  ======    #" << '\n';
 	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n'; // 10
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	cout << "#                                                                                                                     #" << '\n';
-	this->RenderHand(cardsystem);
+	this->RenderHand(cardsystem); //                                     xx
 }
 
 void CombatScreen::MoveUp()
@@ -56,6 +78,63 @@ void CombatScreen::MoveDown()
 	this->SetCardCoord(this->GetCardCoord() + 1);
 }
 
+void CombatScreen::MoveLeft()
+{
+	this->SetNumberCoord(this->GetNumberCoord() - 1);
+}
+
+void CombatScreen::MoveRight()
+{
+	this->SetNumberCoord(this->GetNumberCoord() + 1);
+}
+
+void CombatScreen::RenderNumbers()
+{
+	using namespace std;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	if (!this->GetActiveSelect()) {
+		cout << "#            1111                       2222                               3333                     44  44            #" << '\n';
+		cout << "#              11                      22  22                             33  33                    44  44            #" << '\n';
+		cout << "#              11                         22                                 33                     444444            #" << '\n'; // 10
+		cout << "#              11                        22                               33  33                        44            #" << '\n';
+		cout << "#            111111                    222222                              3333                         44            #" << '\n';
+	}
+	else {
+		if (this->GetNumberCoord() == 0) {
+			cout << "#            "; SetConsoleTextAttribute(hConsole, 14); cout << "1111  "; SetConsoleTextAttribute(hConsole, 15); cout << "                     2222                               3333                     44  44            #" << '\n';
+			cout << "#            "; SetConsoleTextAttribute(hConsole, 14); cout << "  11  "; SetConsoleTextAttribute(hConsole, 15); cout << "                    22  22                             33  33                    44  44            #" << '\n';
+			cout << "#            "; SetConsoleTextAttribute(hConsole, 14); cout << "  11  "; SetConsoleTextAttribute(hConsole, 15); cout << "                       22                                 33                     444444            #" << '\n'; // 10
+			cout << "#            "; SetConsoleTextAttribute(hConsole, 14); cout << "  11  "; SetConsoleTextAttribute(hConsole, 15); cout << "                      22                               33  33                        44            #" << '\n';
+			cout << "#            "; SetConsoleTextAttribute(hConsole, 14); cout << "111111"; SetConsoleTextAttribute(hConsole, 15); cout << "                    222222                              3333                         44            #" << '\n';
+		} 
+		else if (this->GetNumberCoord() == 1) {
+			cout << "#            1111                      "; SetConsoleTextAttribute(hConsole, 14); cout << " 2222 "; SetConsoleTextAttribute(hConsole, 15); cout << "                              3333                     44  44            #" << '\n';
+			cout << "#              11                      "; SetConsoleTextAttribute(hConsole, 14); cout << "22  22"; SetConsoleTextAttribute(hConsole, 15); cout << "                             33  33                    44  44            #" << '\n';
+			cout << "#              11                      "; SetConsoleTextAttribute(hConsole, 14); cout << "   22 "; SetConsoleTextAttribute(hConsole, 15); cout << "                                33                     444444            #" << '\n'; // 10
+			cout << "#              11                      "; SetConsoleTextAttribute(hConsole, 14); cout << "  22  "; SetConsoleTextAttribute(hConsole, 15); cout << "                             33  33                        44            #" << '\n';
+			cout << "#            111111                    "; SetConsoleTextAttribute(hConsole, 14); cout << "222222"; SetConsoleTextAttribute(hConsole, 15); cout << "                              3333                         44            #" << '\n';
+		}
+		else if (this->GetNumberCoord() == 2) {
+			cout << "#            1111                       2222                              "; SetConsoleTextAttribute(hConsole, 14); cout << " 3333 "; SetConsoleTextAttribute(hConsole, 15); cout << "                    44  44            #" << '\n';
+			cout << "#              11                      22  22                             "; SetConsoleTextAttribute(hConsole, 14); cout << "33  33"; SetConsoleTextAttribute(hConsole, 15); cout << "                    44  44            #" << '\n';
+			cout << "#              11                         22                              "; SetConsoleTextAttribute(hConsole, 14); cout << "   33 "; SetConsoleTextAttribute(hConsole, 15); cout << "                    444444            #" << '\n'; // 10
+			cout << "#              11                        22                               "; SetConsoleTextAttribute(hConsole, 14); cout << "33  33"; SetConsoleTextAttribute(hConsole, 15); cout << "                        44            #" << '\n';
+			cout << "#            111111                    222222                             "; SetConsoleTextAttribute(hConsole, 14); cout << " 3333 "; SetConsoleTextAttribute(hConsole, 15); cout << "                        44            #" << '\n';
+		}
+		else {
+			cout << "#            1111                       2222                               3333                     "; SetConsoleTextAttribute(hConsole, 14); cout << "44  44"; SetConsoleTextAttribute(hConsole, 15); cout << "            #" << '\n';
+			cout << "#              11                      22  22                             33  33                    "; SetConsoleTextAttribute(hConsole, 14); cout << "44  44"; SetConsoleTextAttribute(hConsole, 15); cout << "            #" << '\n';
+			cout << "#              11                         22                                 33                     "; SetConsoleTextAttribute(hConsole, 14); cout << "444444"; SetConsoleTextAttribute(hConsole, 15); cout << "            #" << '\n'; // 10
+			cout << "#              11                        22                               33  33                    "; SetConsoleTextAttribute(hConsole, 14); cout << "    44"; SetConsoleTextAttribute(hConsole, 15); cout << "            #" << '\n';
+			cout << "#            111111                    222222                              3333                     "; SetConsoleTextAttribute(hConsole, 14); cout << "    44"; SetConsoleTextAttribute(hConsole, 15); cout << "            #" << '\n';
+		}
+	}
+	
+
+	SetConsoleTextAttribute(hConsole, 10);
+	SetConsoleTextAttribute(hConsole, 15);
+}
+
 void CombatScreen::RenderHand(const CardSystem& cardsystem)
 {
 	using namespace std;
@@ -63,19 +142,19 @@ void CombatScreen::RenderHand(const CardSystem& cardsystem)
 
 	cout << "#=====================================================================================================================#" << '\n';
 	cout << "#                        |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCard(cardsystem, 0); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCard(cardsystem, 1); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCard(cardsystem, 2); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCard(cardsystem, 3); cout << " |                                                                                            #" << '\n'; // 15
-	cout << "# "; this->RenderCard(cardsystem, 4); cout << " |                                                                                            #" << '\n';
-	cout << "# "; this->RenderCard(cardsystem, 5); cout << " |                                                                                            #" << '\n'; // 25
-	cout << "# "; this->RenderCard(cardsystem, 6); cout << " |                                                                                            #" << '\n';
+	cout << "# "; this->RenderCardName(cardsystem, 0); cout << " |                                                                                            #" << '\n';
+	cout << "# "; this->RenderCardName(cardsystem, 1); cout << " |                                                                                            #" << '\n';
+	cout << "# "; this->RenderCardName(cardsystem, 2); cout << " |                                                                                            #" << '\n';
+	cout << "# "; this->RenderCardName(cardsystem, 3); cout << " |"; this->RenderCardDescription(cardsystem);  cout << "#" << '\n'; // 15
+	cout << "# "; this->RenderCardName(cardsystem, 4); cout << " |                                                                                            #" << '\n';
+	cout << "# "; this->RenderCardName(cardsystem, 5); cout << " |                                                                                            #" << '\n'; // 25
+	cout << "# "; this->RenderCardName(cardsystem, 6); cout << " |                                                                                            #" << '\n';
 	cout << "#                        |                                                                                            #" << '\n';
 	cout << "#######################################################################################################################" << '\n'; // 28 * 120
 	//cout << "x                                                          xx                                                       x" << '\n';
 }
 
-void CombatScreen::RenderCard(const CardSystem& cardsystem, int i)
+void CombatScreen::RenderCardName(const CardSystem& cardsystem, int i)
 {
 	using namespace std;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -100,4 +179,15 @@ void CombatScreen::RenderCard(const CardSystem& cardsystem, int i)
 		cout << "   ----------------   ";
 	}
 	SetConsoleTextAttribute(hConsole, 15);
+}
+
+void CombatScreen::RenderCardDescription(const CardSystem& cardsystem)
+{
+	using namespace std;
+	if (this->GetCardCoord() < cardsystem.m_hand.GetSize()) {
+		cout << cardsystem.m_hand.GetCard(this->GetCardCoord()).GetDescription();
+	}
+	else {
+		cout << "                                                                                            ";
+	}
 }

@@ -52,10 +52,10 @@
       <Filter>Quelldateien\Cards</Filter>
     </ClCompile>
     <ClCompile Include="CardSystem.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Cards</Filter>
     </ClCompile>
     <ClCompile Include="UserInterface.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Navigation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +81,10 @@
       <Filter>Headerdateien\Cards</Filter>
     </ClInclude>
     <ClInclude Include="CardSystem.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Cards</Filter>
     </ClInclude>
     <ClInclude Include="UserInterface.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Navigation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
