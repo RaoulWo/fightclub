@@ -1,8 +1,8 @@
 #include "Card.h"
 #include <iostream>
 
-Card::Card(const std::string& name, const std::string& description, int cost, int damage, int armor, int health, int stamina, int strength, int defense, int draw, int discard)
-	: m_name(name), m_description(description), m_cost(cost)
+Card::Card(int id, const std::string& name, const std::string& description, int cost, int damage, int armor, int health, int stamina, int strength, int defense, int draw, int discard)
+	: m_id(id), m_name(name), m_description(description), m_cost(cost)
 {
 	m_attributes[0] = damage;
 	m_attributes[1] = armor;
@@ -17,11 +17,17 @@ Card::Card(const std::string& name, const std::string& description, int cost, in
 #endif
 }
 
+
 Card::~Card()
 {
 #ifdef _DEBUG
 	std::cout << "Card was destroyed" << '\n';
 #endif
+}
+
+const int Card::GetId() const
+{
+	return this->m_id;
 }
 
 const std::string& Card::GetName() const
@@ -143,6 +149,7 @@ void Card::SetDiscardModifier(const int discard)
 std::ostream& operator<<(std::ostream& os, const Card& card)
 {
 	os << '\n'
+	   << "Id          : " << card.GetId() << '\n'
 	   << "Name        : " << card.GetName() << '\n'
 	   << "Description : " << card.GetDescription() << '\n'
 	   << "Cost        : " << card.GetCost() << '\n'

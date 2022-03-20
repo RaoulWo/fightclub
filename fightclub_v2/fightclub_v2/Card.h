@@ -5,10 +5,11 @@ class Card
 {
 public:
 // #### Constructors & Destructor ####
-	Card(const std::string& name, const std::string& description, int cost, int damage, int armor,
+	Card(int id, const std::string& name, const std::string& description, int cost, int damage, int armor,
 		 int health, int stamina, int strength, int defense, int draw, int discard);
 	virtual ~Card();
 // #### Getter ####
+	const int GetId() const;
 	const std::string& GetName() const;
 	const std::string& GetDescription() const;
 	const int GetCost() const;
@@ -37,6 +38,7 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Card& card);
 
 protected:
+	int m_id;
 	std::string m_name;
 	std::string m_description;
 	int m_cost;

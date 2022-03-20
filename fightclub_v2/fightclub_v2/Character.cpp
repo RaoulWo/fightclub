@@ -1,8 +1,13 @@
 #include "Character.h"
 
 Character::Character()
-	: m_max_health(MAX_HEALTH), m_curr_health(MAX_HEALTH), m_armor(0), m_starting_stamina(STARTING_STAMINA), m_curr_stamina(STARTING_STAMINA)
+	: m_alive(true), m_max_health(MAX_HEALTH), m_curr_health(MAX_HEALTH), m_armor(0), m_starting_stamina(STARTING_STAMINA), m_curr_stamina(STARTING_STAMINA), m_strength(0), m_defense(0)
 {
+}
+
+const bool Character::GetAlive() const
+{
+	return this->m_alive;
 }
 
 const int Character::GetMaxHealth() const
@@ -30,6 +35,21 @@ const int Character::GetCurrStamina() const
 	return this->m_curr_stamina;
 }
 
+const int Character::GetStrength() const
+{
+	return  this->m_strength;
+}
+
+const int Character::GetDefense() const
+{
+	return this->m_defense;
+}
+
+void Character::SetAlive(bool b)
+{
+	this->m_alive = b;
+}
+
 void Character::SetCurrHealth(int x)
 {
 	this->m_curr_health = x;
@@ -51,4 +71,22 @@ void Character::SetCurrStamina(int x)
 	this->m_curr_stamina = x;
 	if (this->GetCurrStamina() < 0)
 		this->m_curr_stamina = 0;
+}
+
+void Character::SetStrength(int x)
+{
+	this->m_strength = x;
+}
+
+void Character::SetDefense(int x)
+{
+	this->m_defense = x;
+}
+
+void Character::Die()
+{
+	SetAlive(false);
+	SetCurrHealth(0);
+	SetArmor(0);
+	SetCurrStamina(0);
 }

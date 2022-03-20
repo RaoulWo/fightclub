@@ -4,8 +4,8 @@
 class Team
 {
 public:
-	Character m_member1;
-	Character m_member2;
+	bool GetAlive() const;
+	Character m_members[2];
 protected:
 private:
 

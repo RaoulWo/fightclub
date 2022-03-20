@@ -4,7 +4,7 @@
 #include <Windows.h>
 
 CombatScreen::CombatScreen()
-	: m_card_coord(0), m_number_coord(0), m_active_select(false)
+	: m_card_coord(0), m_number_coord(0), m_select_card(true), m_select_player(false)
 {
 }
 
@@ -18,10 +18,17 @@ const int CombatScreen::GetNumberCoord() const
 	return this->m_number_coord;
 }
 
-const bool CombatScreen::GetActiveSelect() const
+const bool CombatScreen::GetSelectCard() const
 {
-	return this->m_active_select;
+	return m_select_card;
 }
+
+const bool CombatScreen::GetSelectPlayer() const
+{
+	return m_select_player;
+}
+
+
 
 void CombatScreen::SetCardCoord(int x)
 {
@@ -43,10 +50,19 @@ void CombatScreen::SetNumberCoord(int x)
 	}
 }
 
-void CombatScreen::SetActiveSelect(bool b)
+void CombatScreen::SetSelectCard(bool b)
 {
-	this->m_active_select = b;
+	m_select_card = b;
+	m_select_player = !b;
 }
+
+void CombatScreen::SetSelectPlayer(bool b)
+{
+	m_select_player = b;
+	m_select_card = !b;
+}
+
+
 
 void CombatScreen::Render(const CardSystem& cardsystem, const Team& team1, const Team& team2, int roundCount)
 {
@@ -91,7 +107,7 @@ void CombatScreen::RenderNumbers()
 {
 	using namespace std;
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (!this->GetActiveSelect()) {
+	if (this->GetSelectCard()) {
 		cout << "#            1111                       2222                               3333                     44  44            #" << '\n';
 		cout << "#              11                      22  22                             33  33                    44  44            #" << '\n';
 		cout << "#              11                         22                                 33                     444444            #" << '\n'; // 10
@@ -140,7 +156,7 @@ void CombatScreen::RenderStats(const Team& team1, const Team& team2)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
-	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member1.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_member2.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member1.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_member2.GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
+	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[0].GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[0].GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[0].GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[1].GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[1].GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team1.m_members[1].GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[0].GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[0].GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[0].GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[1].GetArmor(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[1].GetCurrHealth(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "| "; cout << setfill('0') << setw(2) << team2.m_members[1].GetCurrStamina(); cout << " |"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
 	cout << "#    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "             "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    "; SetConsoleTextAttribute(hConsole, 11); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 12); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "  "; SetConsoleTextAttribute(hConsole, 10); cout << "======"; SetConsoleTextAttribute(hConsole, 15); cout << "    #" << '\n';
 }
 

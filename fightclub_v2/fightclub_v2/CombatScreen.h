@@ -11,11 +11,13 @@ public:
 	// #### Getter ####
 	const int GetCardCoord() const;
 	const int GetNumberCoord() const;
-	const bool GetActiveSelect() const;
+	const bool GetSelectCard() const;
+	const bool GetSelectPlayer() const;
 	// #### Setter ####
 	void SetCardCoord(int x);
 	void SetNumberCoord(int x);
-	void SetActiveSelect(bool b);
+	void SetSelectCard(bool b);
+	void SetSelectPlayer(bool b);
 	// #### Public Methods ####
 	void Render(const CardSystem& cardsystem, const Team& team1, const Team& team2, int roundCount);
 	void MoveUp();
@@ -31,6 +33,7 @@ private:
 	void RenderCardDescription(const CardSystem& cardsystem);
 	int m_card_coord;
 	int m_number_coord;
-	bool m_active_select;
+	bool m_select_player;
+	bool m_select_card;
 };
 
